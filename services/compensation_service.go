@@ -2,13 +2,14 @@
 package services
 
 import (
-    "compensation-api/repositories"
-    "compensation-api/models"
-    "compensation-api/utils"
+	"compensation-api/models"
+	"compensation-api/repositories"
+	"compensation-api/utils"
+	"fmt"
 )
 
 type CompensationService interface {
-    GetCompensations(filters map[string]string, sortFields map[string]string) ([]models.Compensation, error)
+    GetCompensations(filters map[string]interface{}, sortFields map[string]string) ([]models.Compensation, error)
 }
 
 type compensationService struct {
@@ -19,7 +20,9 @@ func NewCompensationService(repo repositories.CompensationRepository) Compensati
     return &compensationService{repo: repo}
 }
 
-func (s *compensationService) GetCompensations(filters map[string]string, sortFields map[string]string) ([]models.Compensation, error) {
+func (s *compensationService) GetCompensations(filters map[string]interface{}, sortFields map[string]string) ([]models.Compensation, error) {
     query := utils.BuildQuery(filters, sortFields)
+	fmt.Printf("Elasticsearch query: %s", query.String())
+
     return s.repo.Search(query)
 }
