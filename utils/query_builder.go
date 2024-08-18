@@ -6,7 +6,7 @@ import (
     "encoding/json"
 )
 
-func BuildQuery(filters map[string]string, sortFields map[string]string) *bytes.Buffer {
+func BuildQuery(filters map[string]interface{}, sortFields map[string]string) *bytes.Buffer {
     var buf bytes.Buffer
     query := map[string]interface{}{
         "query": map[string]interface{}{
@@ -16,17 +16,19 @@ func BuildQuery(filters map[string]string, sortFields map[string]string) *bytes.
         },
     }
 
+    // Add filters to the query
     for field, value := range filters {
         query["query"].(map[string]interface{})["bool"].(map[string]interface{})["must"] = append(
             query["query"].(map[string]interface{})["bool"].(map[string]interface{})["must"].([]interface{}),
             map[string]interface{}{
-                "match": map[string]interface{}{
+                "range": map[string]interface{}{
                     field: value,
                 },
             },
         )
     }
 
+    // Add sorting to the query
     if len(sortFields) > 0 {
         var sorts []map[string]interface{}
         for field, order := range sortFields {
