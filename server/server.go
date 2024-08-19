@@ -11,8 +11,9 @@ import (
 func NewRouter(handler *handlers.CompensationHandler) *mux.Router {
     r := mux.NewRouter()
     
-    // Define your routes
     r.HandleFunc("/compensation_data", handler.GetCompensations).Methods("GET")
+
+    r.HandleFunc("/compensation_data/id", handler.GetCompensationByID).Methods("GET")
 
     // Health check endpoint
     r.HandleFunc("/health", HealthCheckHandler).Methods("GET")
