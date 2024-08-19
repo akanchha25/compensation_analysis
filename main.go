@@ -33,10 +33,11 @@ func main() {
     }
 
     // Use the index name from the configuration
-    compensationRepo := repositories.NewCompensationRepository(esClient, cfg.IndexName)
-    compensationService := services.NewCompensationService(compensationRepo)
-    compensationHandler := handlers.NewCompensationHandler(compensationService)
+    repo := repositories.NewCompensationRepository(esClient, cfg.IndexName)
+    service := services.NewCompensationService(repo)
+    filterFactory := handlers.NewDefaultFilterFactory()
+    handler := handlers.NewCompensationHandler(service, filterFactory)
 
     // Start the server on the configured port
-    server.StartServer(compensationHandler, cfg.Port)
+    server.StartServer(handler, cfg.Port)
 }
