@@ -1,33 +1,3 @@
-// // config/config.go
-// package config
-
-// import (
-//     "os"
-// )
-
-// type Config struct {
-//     ElasticsearchURL string
-//     IndexName        string
-//     Port             string
-// }
-
-// func LoadConfig() *Config {
-//     return &Config{
-//         ElasticsearchURL: os.Getenv("ELASTICSEARCH_URL"),
-//         IndexName:        os.Getenv("INDEX_NAME"),
-//         Port:             getEnv("PORT", "8080"),
-//     }
-// }
-
-// func getEnv(key, fallback string) string {
-//     value := os.Getenv(key)
-//     if value == "" {
-//         return fallback
-//     }
-//     return value
-// }
-
-
 
 package config
 
